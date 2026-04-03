@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discly - Arredonde valores em arquivos Excel e CSV com regras personalizadas de forma inteligente e rápida">
+    <meta name="keywords" content="excel, csv, arredondamento, processamento de dados, planilhas, discly">
+    <meta name="author" content="Discly">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Discly - Arredondamento Inteligente">
+    <meta property="og:description" content="Ferramenta online para arredondamento de valores com regras personalizadas">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Discly - Arredondamento Inteligente">
+    
+    <title>Discly - Arredondamento Inteligente de Dados</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+        }
+        
+        /* Gradient Background */
+        .gradient-bg {
+            background: linear-gradient(180deg, #8A2BE2 0%, #4169E1 50%, #32CD32 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Animated circles */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: #9333EA;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .circle-2 {
+            width: 350px;
+            height: 350px;
+            background: #3B82F6;
+            top: 40%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+        
+        .circle-3 {
+            width: 300px;
+            height: 300px;
+            background: #10B981;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 6s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Header */
+        header {
+            padding: 32px 0;
+        }
+        
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+        
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(48px, 8vw, 84px);
+            font-weight: 800;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero p {
+            font-size: clamp(18px, 3vw, 24px);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+        }
+        
+        /* CTA Button */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: white;
+            color: #8A2BE2;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 16px;
+            text-decoration: none;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 40px 32px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8A2BE2, #4169E1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 12px;
+        }
+        
+        .feature-card p {
+            font-size: 16px;
+            color: #6B7280;
+            line-height: 1.6;
+        }
+        
+        /* How it Works */
+        .how-it-works {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 80px 60px;
+            margin: 80px 0;
+        }
+        
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            color: #1F2937;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .step {
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8A2BE2, #4169E1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0 auto 24px;
+        }
+        
+        .step h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 12px;
+        }
+        
+        .step p {
+            font-size: 16px;
+            color: #6B7280;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            color: white;
+        }
+        
+        footer p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 0;
+            }
+            
+            .how-it-works {
+                padding: 40px 24px;
+            }
+            
+            .features {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg">
+        <!-- Animated Background Circles -->
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+        
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <a href="#" class="logo">
+                    <span class="logo-icon">📊</span>
+                    Discly
+                </a>
+            </div>
+        </header>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Arredondamento<br>Inteligente de Dados</h1>
+                <p>Processe seus arquivos Excel e CSV com regras personalizadas de arredondamento de forma rápida, inteligente e profissional.</p>
+                <a href="https://smart-round-convert.preview.emergentagent.com" class="cta-button">
+                    🚀 Começar Agora
+                </a>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📁</div>
+                        <h3>Múltiplos Formatos</h3>
+                        <p>Suporte completo para arquivos .xlsx, .xls e .csv com conversão automática entre formatos.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚙️</div>
+                        <h3>Regras Personalizadas</h3>
+                        <p>Aplique regras específicas de arredondamento: números menores que 1.000 terminam em X2.90, X4.90, X7.90 ou X9.90.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Ajuste de Preços</h3>
+                        <p>Adicione descontos ou aumentos percentuais antes do arredondamento para ajustes rápidos de preços.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">👁️</div>
+                        <h3>Preview em Tempo Real</h3>
+                        <p>Visualize os valores originais e arredondados antes de fazer o download do arquivo processado.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Seleção de Colunas</h3>
+                        <p>Escolha exatamente quais colunas devem ser processadas, mantendo o restante dos dados intacto.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Rápido e Seguro</h3>
+                        <p>Processamento instantâneo no navegador sem necessidade de cadastro ou armazenamento de dados.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- How it Works -->
+        <section>
+            <div class="container">
+                <div class="how-it-works">
+                    <h2 class="section-title">Como Funciona</h2>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Faça Upload</h3>
+                            <p>Envie seu arquivo Excel (.xlsx, .xls) ou CSV diretamente no navegador.</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Configure</h3>
+                            <p>Selecione as colunas e ajuste a porcentagem de desconto ou aumento (opcional).</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Visualize</h3>
+                            <p>Confira a prévia dos dados processados antes de finalizar.</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h3>Baixe</h3>
+                            <p>Escolha o formato desejado (.xlsx, .xls ou .csv) e faça o download.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p>© 2024 Discly. Todos os direitos reservados.</p>
+                <p style="margin-top: 12px;">
+                    Desenvolvido com 💜 usando 
+                    <a href="https://emergent.sh" target="_blank">Emergent</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
